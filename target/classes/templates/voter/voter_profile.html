@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Update Profile</title>
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+    <h2>Update Profile</h2>
+
+    <form th:action="@{/voter/voter_profile}" method="post">
+        <label>Name:</label>
+        <input type="text" name="username" th:value="${user.username}" required /><br><br>
+
+        <label>New Password:</label>
+        <input type="password" name="password" placeholder="Leave blank to keep current" /><br><br>
+
+        <button type="submit">Update</button>
+    </form>
+
+    <br>
+    <a th:href="@{/voter/voter_dashboard}">Back to Dashboard</a>
+</body>
+</html>

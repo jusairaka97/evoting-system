@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Vote Status</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<div class="main-container">
+    <h2>Vote Status</h2>
+    <p th:text="${message != null} ? ${message} : 'You have already voted.'"></p>
+	<div class="main-link">
+    <a href="/voter/voter_dashboard">Back to Dashboard</a>
+	</div>
+	</div>
+</body>
+</html>

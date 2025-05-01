@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Manage Candidates</title>
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+
+<body>
+	<div class="dashboard-container">
+	<h2>Manage Candidates</h2>
+
+	<form th:action="@{/admin/manage_candidates/add}" method="post">
+		<input type="text" name="name" placeholder="Candidate Name" required />
+		<input type="text" name="position" placeholder="Position" required />
+		<button type="submit">Add Candidate</button>
+	</form>
+
+	<h3>Candidate List</h3>
+	<table border="1">
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Department</th>
+			<th>Action</th>
+		</tr>
+		<tr th:each="candidate : ${candidates}">
+			<td th:text="${candidate.id}"></td>
+			<td th:text="${candidate.name}"></td>
+			<td th:text="${candidate.position}"></td>
+			<td>
+				<div class="dashboard-link">
+				<a th:href="@{'/admin/manage_candidates/delete/' + ${candidate.id}}">Delete</a><br>
+				</div>
+			</td>
+		</tr>
+	</table>
+
+	<br>
+	<div class="dashboard-link">
+		<a th:href="@{/admin/admin_dashboard}">Back to Dashboard</a>
+	</div>
+	</div>
+</body>
+
+</html>

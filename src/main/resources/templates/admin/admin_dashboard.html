@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Admin Dashboard</title>
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+
+<body>
+	<div class="dashboard-container">
+		<h2>Admin Dashboard</h2>
+		<div class="dashboard-link">
+			<a th:href="@{/admin/manage_candidates}">Manage Candidates</a><br>
+			<a th:href="@{/admin/manage_elections}">Manage Election</a><br>
+			<a th:href="@{/admin/election_status}">View Election Status</a><br>
+			<a th:href="@{/admin/admin_results}">View Results</a><br>
+			<a th:href="@{/login}">Logout</a>
+		</div>
+	</div>
+</body>
+
+</html>

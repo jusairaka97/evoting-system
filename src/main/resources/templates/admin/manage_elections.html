@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Manage Elections</title>
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+
+<body>
+	<div class="dashboard-container">
+		<h2>Manage Elections</h2>
+
+		<table border="1">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Start Time</th>
+					<th>End Time</th>
+					<th>Status</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="election : ${elections}">
+					<td th:text="${election.id}">1</td>
+					<td th:text="${election.name}">Election Name</td>
+					<td th:text="${election.startTime}">Start</td>
+					<td th:text="${election.endTime}">End</td>
+					<td th:text="${statusMap[election.id]}">Status</td>
+					<td>
+						<!-- Show Start button if upcoming or ended -->
+						<form th:if="${statusMap[election.id]} == 'Upcoming' or ${statusMap[election.id]} == 'Ended'"
+							th:action="@{'/admin/elections/start/' + ${election.id}}" method="post">
+							<button type="submit">Start Election</button>
+						</form>
+
+						<!-- Show Stop button if live -->
+						<form th:if="${statusMap[election.id]} == 'Live'"
+							th:action="@{'/admin/elections/stop/' + ${election.id}}" method="post">
+							<button type="submit">Stop Election</button>
+						</form>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<!-- Add New Election Button -->
+		<br>
+		<div class="dashboard-link">
+			<a th:href="@{/admin/create_election}">
+				<button>Add New Election</button>
+			</a>
+
+			<br><br>
+			<a th:href="@{/admin/admin_dashboard}">
+				<button>Back to Dashboard</button>
+			</a>
+		</div>
+	</div>
+</body>
+
+</html>

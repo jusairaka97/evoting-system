@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Election Status</title>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2>Election Status</h2>
+
+        <!-- Election status -->
+        <p>
+            Current Status: 
+            <span th:text="${status} ? 'Active' : 'Stopped'">Status</span>
+        </p>
+
+        <!-- Show election name only if there's an active election -->
+        <div th:if="${liveElection != null}">
+            <p><strong>Election Name:</strong> <span th:text="${liveElection.name}">Election Name</span></p>
+        </div>
+
+        <!-- Start/Stop button -->
+        <form th:action="@{/admin/election_status/toggle}" method="post">
+            <button type="submit" th:text="${status} ? 'Stop Election' : 'Start Election'">Toggle</button>
+        </form>
+
+        <!-- Back to dashboard -->
+        <div class="dashboard-link">
+            <a th:href="@{/admin/admin_dashboard}">Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

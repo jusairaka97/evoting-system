@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>College E-Voting System</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the College E-Voting System</h1>
+        <p>Secure, fair, and easy voting for college elections.</p>
+        
+        <a th:href="@{/login}" class="btn">Login</a>
+
+        <div class="info">
+            <h3>For Admins</h3>
+            <p>Manage elections, candidates, and view results.</p>
+
+            <h3>For Voters</h3>
+            <p>Vote in ongoing elections and view results.</p>
+        </div>
+    </div>
+</body>
+</html>

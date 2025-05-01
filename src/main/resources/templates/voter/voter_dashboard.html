@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Voter Dashboard</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+
+<body>
+	<div class="dashboard-container">
+		<h2 th:text="'Welcome, ' + ${username} + '!'">Welcome</h2>
+
+		<!-- Show election status -->
+		<div th:if="${electionLive}">
+			<p><strong>Election Status:</strong> Voting is open!</p>
+			<h3 th:text="'Live Election: ' + ${liveElection.name}">Live Election Name</h3>
+		</div>
+		<div th:if="${!electionLive} and ${!electionEnded}">
+			<p><strong>Election Status:</strong> Upcoming</p>
+		</div>
+		<div th:if="${electionEnded}">
+			<p><strong>Election Status:</strong> Voting has closed.</p>
+		</div>
+
+		<!-- Navigation links -->
+		<div class="dashboard-link">
+			<a th:href="@{/voter/voter_vote}">Cast Your Vote</a><br>
+			<a th:href="@{/voter/voter_status}">View Status</a><br>
+
+			<!-- Results shown only after election ends -->
+			<div th:if="${electionEnded}">
+				<a th:href="@{/voter/voter_results}">View Results</a><br>
+			</div>
+
+			<a th:href="@{/voter/voter_profile}">Update Profile / Change Password</a><br>
+			<a th:href="@{/login}">Logout</a>
+		</div>
+	</div>
+</body>
+
+</html>

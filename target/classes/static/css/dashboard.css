@@ -1,0 +1,76 @@
+/* General styling */
+body {
+    font-family: Arial, sans-serif;
+    background: url('/images/vote.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Login container */
+.dashboard-container {
+    background-color: #ffffff;
+    padding: 50px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgb(255, 255, 255);
+    width: 500px;	
+	max-width: 60%;                
+	text-align: center;
+}
+
+/* Heading */
+h2 {
+    margin-bottom: 20px;
+    color: rgb(64, 128, 128);
+}
+
+/* Input fields */
+.input-group {
+    margin-bottom: 15px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 90%;
+    padding: 10px;
+    border: 1px solid rgb(64, 128, 128);
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+/* Login button */
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: rgb(64, 128, 128);
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: rgb(128, 255, 128);
+}
+
+/* Sign-up link */
+.dashboard-link {
+    margin-top: 15px;
+    font-size: 14px;
+    color: rgb(64, 128, 128);
+}
+
+.dashboard-link a {
+    color: rgb(64, 128, 128);
+    text-decoration: none;
+}
+
+.dashboard-link a:hover {
+    text-decoration: underline;
+}

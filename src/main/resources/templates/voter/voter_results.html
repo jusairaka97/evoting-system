@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Voting Results</title>
+    <link rel="stylesheet" th:href="@{/css/style2.css}">
+    <style>
+        .winner {
+            background-color: #d4edda;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+	<div class="main-container">
+    <h2>Election Results</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Candidate Name</th>
+                <th>Vote Count</th>
+                <th>Percentage</th>
+            </tr>
+        </thead>
+		<tbody>
+		   <tr th:each="row, iterStat : ${voter_results}" th:classappend="${iterStat.index == 0} ? 'winner'">
+		        <td th:text="${row[0].name}">Candidate Name</td>
+		        <td th:text="${row[1]}">Vote Count</td>
+		        <td th:text="${#numbers.formatDecimal((row[1] * 100.0) / totalVotes, 0, 'POINT', 1, 'ZERO') + '%'}">Percentage</td>
+		    </tr>
+		</tbody>
+    </table>
+
+    <h3>Vote Distribution</h3>
+	<div style="width: 400px; height: 300px;">
+	    <canvas id="voteChart"></canvas>
+	</div>
+
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+        var labels = /*[[${labels}]]*/ [];
+        var data = /*[[${data}]]*/ [];
+
+        new Chart(document.getElementById("voteChart"), {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "Votes",
+                    data: data,
+                    backgroundColor: ['#3498db', '#e74c3c', '#2ecc71', '#f1c40f', '#9b59b6']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    /*]]>*/
+    </script>
+	</div>
+</body>
+</html>
