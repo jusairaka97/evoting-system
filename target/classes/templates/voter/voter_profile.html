@@ -5,6 +5,7 @@
 	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
 </head>
 <body>
+	<div class="dashboard-container">
     <h2>Update Profile</h2>
 
     <form th:action="@{/voter/voter_profile}" method="post">
@@ -18,6 +19,9 @@
     </form>
 
     <br>
+	<div class="dashboard-link">
     <a th:href="@{/voter/voter_dashboard}">Back to Dashboard</a>
+	</div>
+	</div>
 </body>
 </html>

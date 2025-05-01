@@ -59,45 +59,63 @@ public class VoterController {
 
 	@GetMapping("/voter_vote")
 	public String showVotePage(Model model, Authentication authentication) {
-		String username = authentication.getName();
-		User user = userRepository.findByUsername(username);
+	    String username = authentication.getName();
+	    User user = userRepository.findByUsername(username);
 
-		if (voteService.hasUserVoted(user)) {
-			return "redirect:/voter/voter_status";
-		}
-		Election election = electionService.getLiveElection();
-		model.addAttribute("liveElection", election);
-		Map<String, List<Candidate>> candidatesByPosition = candidateService.getCandidatesGroupedByPosition();
-		model.addAttribute("candidatesByPosition", candidatesByPosition);
-		// model.addAttribute("candidates", candidateService.getAllCandidates());
-		return "voter/voter_vote";
+	    if (voteService.hasUserVoted(user)) {
+	        return "redirect:/voter/voter_status";
+	    }
+
+	    Election election = electionService.getLiveElection();
+	    model.addAttribute("liveElection", election);
+
+	    Map<String, List<Candidate>> candidatesByPosition = candidateService.getCandidatesGroupedByPosition();
+	    model.addAttribute("candidatesByPosition", candidatesByPosition);
+
+	    return "voter/voter_vote";
 	}
 
 	@PostMapping("/voter_vote")
-	public String submitVote(@RequestParam Map<String, String> voteData, Authentication authentication) {
-		String username = authentication.getName();
-		User user = userRepository.findByUsername(username);
+	public String submitVote(@RequestParam Map<String, String> voteData,
+	                         Authentication authentication,
+	                         Model model) {
 
-		boolean allVotesSuccessful = true;
+	    String username = authentication.getName();
+	    User user = userRepository.findByUsername(username);
 
-		for (Map.Entry<String, String> entry : voteData.entrySet()) {
-			try {
-				Long candidateId = Long.parseLong(entry.getValue());
-				boolean voted = voteService.castVote(user, candidateId);
-				if (!voted) {
-					allVotesSuccessful = false;
-				}
-			} catch (NumberFormatException e) {
-				allVotesSuccessful = false;
-			}
-		}
+	    Map<String, List<Candidate>> candidatesByPosition = candidateService.getCandidatesGroupedByPosition();
+	    model.addAttribute("candidatesByPosition", candidatesByPosition);
 
-		if (allVotesSuccessful) {
-			return "redirect:/voter/voter_status";
-		} else {
-			return "redirect:/voter/voter_vote?error=true";
-		}
+	    // Validate that all required positions have a vote
+	    for (String position : candidatesByPosition.keySet()) {
+	        if (!voteData.containsKey(position) || voteData.get(position).isBlank()) {
+	            model.addAttribute("error", "You must vote for all positions.");
+	            return "voter/voter_vote";
+	        }
+	    }
+
+	    boolean allVotesSuccessful = true;
+
+	    for (String position : voteData.keySet()) {
+	        try {
+	            Long candidateId = Long.parseLong(voteData.get(position));
+	            boolean voted = voteService.castVote(user, candidateId);
+	            if (!voted) {
+	                allVotesSuccessful = false;
+	            }
+	        } catch (NumberFormatException e) {
+	            allVotesSuccessful = false;
+	        }
+	    }
+
+	    if (allVotesSuccessful) {
+	        return "redirect:/voter/voter_status";
+	    } else {
+	        model.addAttribute("error", "You have already voted for one or more positions.");
+	        return "voter/voter_vote";
+	    }
 	}
+
 
 	@GetMapping("/voter_status")
 	public String showVoteStatusPage(Model model, Authentication authentication) {

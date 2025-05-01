@@ -39,17 +39,13 @@ public class VoteServiceImpl implements VoteService {
         Election election = electionService.getLiveElection();
         if (election == null) return false;
 
-        String position = candidate.getPosition();
-
-        boolean alreadyVoted = voteRepository.existsByVoterAndElectionAndPosition(user, election, position);
+        boolean alreadyVoted = voteRepository.existsByVoterAndElection(user, election);
         if (alreadyVoted) return false;
 
         Vote vote = new Vote();
         vote.setVoter(user);
         vote.setCandidate(candidate);
         vote.setElection(election);
-        vote.setPosition(position);
-        vote.setTimestamp(LocalDateTime.now());
 
         voteRepository.save(vote);
         return true;
@@ -75,7 +71,7 @@ public class VoteServiceImpl implements VoteService {
     }
 	@Override
 	public boolean hasUserVotedForPosition(User user, Election election, String position) {
-		return voteRepository.existsByVoterAndElectionAndPosition(user, election, position);
+		return voteRepository.existsByVoterAndElection(user, election);
 
 	}
 }

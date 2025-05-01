@@ -2,34 +2,44 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Vote</title>
-	<link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-	<div class="main-container">
-    <h2>Cast Your Vote</h2>
+    <div class="main-container">
+        <h2>Cast Your Vote</h2>
 
-    <form th:action="@{/voter/voter_vote}" method="post">
-        <div th:each="entry : ${candidatesByPosition}">
-            <h3 th:text="${entry.key}">Position Name</h3>
-
-            <div th:each="candidate : ${entry.value}">
-                <label>
-                    <input type="radio" th:name="${entry.key}" th:value="${candidate.id}" required />
-                    <span th:text="${candidate.name}">Candidate Name</span>
-                </label><br/>
-            </div>
-            <hr/>
+        <!-- Show error from controller -->
+        <div th:if="${error}">
+            <p style="color: red;" th:text="${error}"></p>
         </div>
 
-        <button type="submit">Submit Your Vote</button>
-    </form>
+        <!-- Or error from URL param -->
+        <div th:if="${param.error}">
+            <p style="color: red;">You have already voted for one or more positions.</p>
+        </div>
 
-    <div th:if="${param.error}">
-        <p style="color:red;">You have already voted for one or more positions.</p>
+        <form th:action="@{/voter/voter_vote}" method="post">
+            <div th:each="entry : ${candidatesByPosition}">
+                <h3 th:text="${entry.key}">Position Name</h3>
+
+                <div th:each="candidate, iterStat : ${entry.value}">
+                    <label>
+                        <input type="radio"
+                               th:name="${entry.key}"
+                               th:value="${candidate.id}"
+                               th:attr="required=${iterStat.index == 0}" />
+                        <span th:text="${candidate.name}">Candidate Name</span>
+                    </label><br/>
+                </div>
+                <hr/>
+            </div>
+
+            <button type="submit">Submit Your Vote</button>
+        </form>
+
+        <div class="main-link">
+            <a href="/voter/voter_dashboard">Back to Dashboard</a>
+        </div>
     </div>
-	<div class="main-link">
-	    <a href="/voter/voter_dashboard">Back to Dashboard</a>
-		</div>
-	</div>
 </body>
 </html>

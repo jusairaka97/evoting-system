@@ -17,8 +17,5 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
 	List<Object[]> countVotesByCandidate();
 
     long countByCandidate(Candidate candidate);
-    boolean existsByVoterAndElectionAndPosition(User voter, Election election, String position);
     boolean existsByVoterAndElection(User voter, Election election);
-
-	boolean existsByVoterAndPosition(User user, String position);
 }
